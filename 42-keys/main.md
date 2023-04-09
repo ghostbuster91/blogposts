@@ -1,7 +1,6 @@
 # 42 keys layout
 
 Created: 21.02.2023
-Last updated: 21.02.2023
 
 I developed the initial version of this layout on my Sofle V2 (52 keys) but then I realized that I don't need that many keys.
 I migrated it to tbk-mini (42 keys) and I have been using it in the current form for almost 4 months.
