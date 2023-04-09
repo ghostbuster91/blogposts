@@ -29,13 +29,15 @@ These very my goals when developing that layout:
 I think that I should explain what I mean by general purpose layout.
 I want it to be almost as good as it is for vim and tmux for any other program.
 So, if there is a program that uses combination like `LCTL`+`LSFT`+`F12` I should be able to type it fairly easy even though this is not something that I use on a daily basis.
-This also corresponds to that goal, but I want to stress that I don't want to have keys that are very specific to a particular program. For example the default mapping for rename action in IJ is `LSFT`+`F6` and I don't want to have a single one specific key that does that. Although having all F-keys shifted on some layer would be fine.
+
+There is also another thing that corresponds to that goal, that I don't want to have keys that are very specific to a particular program. For example the default mapping for rename action in IJ is `LSFT`+`F6` and I don't want to have a single one specific key that does that. Although having all F-keys shifted on some layer would be fine.
 
 ## Alpha layer
 
 I wanted something more efficient than QWERTY. Initially I though about going with DVORAK, mostly because I was unaware of alternatives.
 I went with COLEMAK-DH which is quite a popular choice these days from what I have seen, and it seemed like a safe bet.
-COLEMAK is also not terrible when it comes to writing Polish, it is not as good as for other languages like English or German but still betters than QWERTY.
+COLEMAK is also not terrible when it comes to writing Polish, it is not as good as for other languages like English or German but still better than QWERTY.
+If you are interested about other possible choices I recommend taking a look at [the diagram](./alt-keyboard-layots.png) that I found somewhere on reddit about alternative keyboard layouts.
 
 ![layer0](./layer0.png "layer0")
 
