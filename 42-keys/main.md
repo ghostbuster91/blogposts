@@ -45,8 +45,11 @@ with a slight modificatin of having `AltGr` on the most inner column on both sid
 Putting it in the most inner column turned out to be a good choice since it is fairly easily accessible
 but I don't have to access it very often (that might be specific to me as I often don't use these special letters but their standard counterpart when writing in Polish).
 
-Regarding home row mods is is important to configure your keyboard correctly. I started with [`IGNORE_MOD_TAP_INTERRUPT`](https://docs.qmk.fm/#/tap_hold?id=ignore-mod-tap-interrupt). I tried using [`PERMISSIVE_HOLD`](https://docs.qmk.fm/#/tap_hold?id=permissive-hold) but that resulted in many misfires. Then I decided to try [Achordion](https://getreuer.info/posts/keyboards/achordion/index.html) and it worked like a charm. After that I brought back `PERMISSIVE_HOLD` and everything works as is should now :)
+Regarding home row mods is is important to configure your keyboard correctly. I started with [`IGNORE_MOD_TAP_INTERRUPT`](https://docs.qmk.fm/#/tap_hold?id=ignore-mod-tap-interrupt). I tried using [`PERMISSIVE_HOLD`](https://docs.qmk.fm/#/tap_hold?id=permissive-hold) but that resulted in many misfires. 
+Then I decided to try [Achordion](https://getreuer.info/posts/keyboards/achordion/index.html) and it worked like a charm. After that I brought back `PERMISSIVE_HOLD` and everything works as is should now :)
 
+Instead of Achordion you could also try using [bilateral combinations](https://github.com/qmk/qmk_firmware/pull/17715) feature from qmk, although I have never tried it and at the point of writing the PR was closed due to inactivity.
+ 
 I put `Esc` on the most outer column on the left half as neovim is my editor of choice.
 The key above the `Esc` is quite far away and I didn't find any key that would fit this place. Similar concerns apply to the key below it.
 Suggestions are welcome. This might be also an indication that I should try a smaller keyboard like 5x3.
