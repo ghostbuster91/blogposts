@@ -14,7 +14,7 @@ fully explaining why the things are in the current form.
 
 ## Goals
 
-These very my goals when developing that layout:
+These were my goals when developing that layout:
 
 - use not more than 42 keys
 - don't use pinky fingers for modifiers or any other frequently used keys like bspc or enter
