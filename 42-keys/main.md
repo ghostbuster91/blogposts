@@ -173,3 +173,4 @@ In fact `CTRL`+number can be used to switch between tabs in chrome.
 ## Additional resources
 
 - https://mark.stosberg.com/markstos-corne-3x5-1-keyboard-layout/
+- All images were rendered using http://www.keyboard-layout-editor.com/#/gists/5866f895acb1ca6abbc95ddc9d84f7fc
