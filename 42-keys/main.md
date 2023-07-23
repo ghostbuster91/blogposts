@@ -75,9 +75,9 @@ Having `bspc` and `space` under your thumbs is very convenient.
 One function that is hard to visualize on the image is the access to the last layer(`Extra`) which is done by holding both main thumb keys (`bspc`+`space`).
 Such combination is handy but notice that after doing that your both thumb keys are immobilized which makes it suitable only for a very specific layers.
 
-`TMUX` key is set to whatever the tmux prefix is. In my case that is CTRL+B. One thing that I recelty noticed, is that if I press quickly `TMUX` key followed by `Z` which should trigger the zoom action, the tmux job is suspended instead.
-This is because the `TMUX` key involves `CTRL` modifier that, when combined with `Z` triggers the standard shell shortcut for putting the current program into the background. This can be fairly easy fixed by changing
-to unregister `CTRL` modifier already in the key press branch.
+`TMUX` key is set to whatever the tmux prefix is. In my case that is CTRL+B. One thing that I recently noticed, is that if I press quickly `TMUX` key followed by `Z` which should trigger
+the zoom action, the tmux job is suspended instead. This is because the `TMUX` key involves `CTRL` modifier that, when combined with `Z` triggers the standard shell shortcut
+for putting the current program into the background. This can be fairly easy fixed by changing to unregister `CTRL` modifier already in the key press branch.
 
 Additional resources:
 
@@ -100,8 +100,10 @@ I recently added `PrintScreen` as is is useful and from the lack of preference I
 
 The F11 key is mapped in vim to "save all" action, but it is still a general key that could be mapped to anything.
 
-The navigation layer gives also an option to access so called window switcher (`ALT_TAB` and `ALT_STAB` on the image). I feel that this feature deserves its own blogpost but in short window switcher allow you to
-change your windows by using combination of ALT+TAB. The window switcher functionality and the way how the outer left outer column changes across the layouts is something that I really enjoy.
+The navigation layer gives also an option to access so called window switcher (`ALT_TAB` and `ALT_STAB` on the image).
+I feel that this feature deserves its own blogpost but in short window switcher allow you to change your windows by using combination of `ALT+TAB`.
+(You can now read more about window switcher [here](./../window-switcher/main.md))
+The window switcher functionality and the way how the outer left outer column changes across the layouts is something that I really enjoy.
 
 ## Numbers layer
 
