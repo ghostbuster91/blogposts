@@ -179,5 +179,5 @@ In fact `CTRL`+number can be used to switch between tabs in chrome.
 - https://mark.stosberg.com/markstos-corne-3x5-1-keyboard-layout/
 - All images were rendered using http://www.keyboard-layout-editor.com/#/gists/5866f895acb1ca6abbc95ddc9d84f7fc
 - keymap-layout editor [file](./generic-42-keys-keyboard.json)
-- [qmk implementation](https://github.com/ghostbuster91/qmk_firmware/tree/e9951d5d2d265b542732f3e09b7dfe4f193760eb/keyboards/splitkb/kyria/keymaps/ghostbuster91)https://github.com/ghostbuster91/qmk_firmware/tree/e9951d5d2d265b542732f3e09b7dfe4f193760eb/keyboards/splitkb/kyria/keymaps/ghostbuster91
-- [zmk implementation](https://github.com/ghostbuster91/Dilemma3x6_3-zmk)https://github.com/ghostbuster91/Dilemma3x6_3-zmk (without same window switcher)
+- [qmk implementation](https://github.com/ghostbuster91/qmk_firmware/tree/e9951d5d2d265b542732f3e09b7dfe4f193760eb/keyboards/splitkb/kyria/keymaps/ghostbuster91)
+- [zmk implementation](https://github.com/ghostbuster91/Dilemma3x6_3-zmk) (without same window switcher)
