@@ -158,7 +158,9 @@ In fact `CTRL`+number can be used to switch between tabs in chrome.
 ## Problems
 
 - ~space followed by tab (common pattern in shell as tab invokes shell-completion)~
+
   This one was solved by putting additional TAB key on the left outer thumb
+
 - paste into terminal is different than ctrl+v from nav layer
 - lack of `bspc` when accessing numbers.
   I kind of get used to this but I still think that this is an issue.
