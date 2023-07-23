@@ -30,7 +30,7 @@ These were my goals when developing that layout:
 
 I think that I should explain what I mean by general purpose layout.
 I want it to be almost as good as it is for vim and tmux for any other program.
-So, if there is a program that uses combination like `LCTL`+`LSFT`+`F12` I should be able to type it fairly easy even though this is not something that I use on a daily basis.
+So, if there is a program that uses combination like `LCTRL`+`LSHFT`+`F12` I should be able to type it fairly easy even though this is not something that I use on a daily basis.
 
 There is also another thing that corresponds to that goal, that I don't want to have keys that are very specific to a particular program. For example the default mapping for rename action in IJ is `LSFT`+`F6` and I don't want to have a single one specific key that does that. Although having all F-keys shifted on some layer would be fine.
 
@@ -63,7 +63,7 @@ I even don't use the upper key from the second most outer column as in colemak t
 
 ## Thumb keys
 
-I decided to cover them separately because they are almost identical on all layers which I think contributes to the goal of being an intuitive.
+I decided to cover them separately because they are identical on all layers which I think contributes to the goal of being an intuitive.
 They look as follows:
 
 ![thumbs](./thumbs.png "thumbs")
@@ -144,7 +144,7 @@ Additional resources:
 
 ## Functions layer
 
-This layer is very similar to numbers layer but instead of numbers it contains function keys. In addition OSM_LGUI is changed to regular LGUI as it is convenient to have it in gnome environment.
+This layer is very similar to numbers layer but instead of numbers it contains function keys. In addition `OSM_LGUI` is changed to regular `LGUI` as it is convenient to have it in gnome environment.
 
 ![functions](./functions.png "functions")
 
