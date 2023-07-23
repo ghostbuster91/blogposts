@@ -2,9 +2,9 @@
 
 Created: 21.02.2023
 
-I developed the initial version of this layout on my Sofle V2 (52 keys) but then I realized that I don't need that many keys.
-I migrated it to tbk-mini (42 keys) and I have been using it for about 6 months.
-Then I migrated to kyria which has sightly more keys, but I am still using the same 42 keys layout.
+I developed the initial version of this layout on my [Sofle V2](https://github.com/josefadamcik/SofleKeyboard) (52 keys) but then I realized that I don't need that many keys.
+I migrated it to [tbk-mini](https://github.com/Bastardkb/TBK-Mini) (42 keys) and I have been using it for about 6 months.
+Then I migrated to [kyria](https://splitkb.com/products/kyria-rev3-pcb-kit) which has sightly more keys, but I am still using the same 42 keys layout.
 Now, I am about to migrate to yet another split keyboard that will follow the same approach.
 In total, I have been using this layout for the last year across multiple keyboards.
 
