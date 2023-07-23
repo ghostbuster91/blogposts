@@ -53,6 +53,8 @@ Then I decided to try [Achordion](https://getreuer.info/posts/keyboards/achordio
 
 Instead of Achordion you could also try using [bilateral combinations](https://github.com/qmk/qmk_firmware/pull/17715) feature from qmk, although I have never tried it and at the point of writing the PR was closed due to inactivity.
 
+As my `SHIFT` keys are side specific it would be inconvenient to alternate between them when writting all caps words. For that I use [CAPS WORD](https://docs.qmk.fm/#/feature_caps_word?id=caps-word) feature from QMK.
+
 I put `Esc` on the most outer column on the left half as neovim is my editor of choice.
 The key above the `Esc` is quite far away and I didn't find any key that would fit this place. Similar concerns apply to the key below it.
 Suggestions are welcome. This might be also an indication that I should try a smaller keyboard like 5x3.
