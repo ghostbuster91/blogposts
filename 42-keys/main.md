@@ -75,7 +75,9 @@ Having `bspc` and `space` under your thumbs is very convenient.
 One function that is hard to visualize on the image is the access to the last layer(`Extra`) which is done by holding both main thumb keys (`bspc`+`space`).
 Such combination is handy but notice that after doing that your both thumb keys are immobilized which makes it suitable only for a very specific layers.
 
-TMUX key is set to whatever the tmux prefix is. In my case that is CTRL+B.
+`TMUX` key is set to whatever the tmux prefix is. In my case that is CTRL+B. One thing that I recelty noticed, is that if I press quickly `TMUX` key followed by `Z` which should trigger the zoom action, the tmux job is suspended instead.
+This is because the `TMUX` key involves `CTRL` modifier that, when combined with `Z` triggers the standard shell shortcut for putting the current program into the background. This can be fairly easy fixed by changing
+to unregister `CTRL` modifier already in the key press branch.
 
 Additional resources:
 
@@ -98,8 +100,8 @@ I recently added `PrintScreen` as is is useful and from the lack of preference I
 
 The F11 key is mapped in vim to "save all" action, but it is still a general key that could be mapped to anything.
 
-The navigation layer gives also an option to access so called window switcher. I feel that this feature deserves its own blogpost but in short window switcher allow you to
-change your windows by using combination of ALT+TAB.
+The navigation layer gives also an option to access so called window switcher (`ALT_TAB` and `ALT_STAB` on the image). I feel that this feature deserves its own blogpost but in short window switcher allow you to
+change your windows by using combination of ALT+TAB. The window switcher functionality and the way how the outer left outer column changes across the layouts is something that I really enjoy.
 
 ## Numbers layer
 
@@ -118,6 +120,8 @@ That was much better then anything before but after some time I decided that the
 and I changed them to be like in a regular keypad. I decided to keep the `0` in the middle row (at first mainly because I didn't have any better idea where to put it).
 This turned out pretty well as zero is definitely the one that is used the most, so having it on the home-row pays off.
 
+In addition, numbers layer override the behavior of the left outer column. This time we get `CTRL+TAB` and `CTRL+SHIFT+TAB`.
+
 ## Symbols layer
 
 Second most challenging layer right after the main one.
@@ -125,6 +129,8 @@ Luckily, Pascal Getreuer already did the hard job and researched that topic - [D
 Obviously, before going with this one I spent few days looking at possible alternatives.
 
 ![symbol](./symbol.png "symbol")
+
+Similarly to numbers layer, symbol layer also overrides behavior of the left outer column giving us access to `TAB` and `SHIFT+TAB`.
 
 Additional resources:
 
