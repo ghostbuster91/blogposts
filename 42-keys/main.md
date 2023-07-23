@@ -68,7 +68,7 @@ They look as follows:
 
 ![thumbs](./thumbs.png "thumbs")
 
-The middle thumb keys are in a natural position for my thumb and because of that they have the most important functions.
+The middle thumb keys are in a natural position for my thumbs and because of that they have the most important functions.
 
 Having `bspc` and `space` under your thumbs is very convenient.
 
@@ -178,3 +178,4 @@ In fact `CTRL`+number can be used to switch between tabs in chrome.
 
 - https://mark.stosberg.com/markstos-corne-3x5-1-keyboard-layout/
 - All images were rendered using http://www.keyboard-layout-editor.com/#/gists/5866f895acb1ca6abbc95ddc9d84f7fc
+- keymap-layout editor [file](./generic-42-keys-keyboard.json)
