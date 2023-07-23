@@ -66,7 +66,7 @@ I even don't use the upper key from the second most outer column as in colemak t
 I decided to cover them separately because they are almost identical on all layers which I think contributes to the goal of being an intuitive.
 They look as follows:
 
-[`tab`/number layer][`bspc`/navigation layer][`del`/function layer] |||| [`enter`][`space`/symbol layer][TMUX]
+![thumbs](./thumbs.png "thumbs")
 
 The middle thumb keys are in a natural position for my thumb and because of that they have the most important functions.
 
