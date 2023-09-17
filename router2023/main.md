@@ -166,7 +166,7 @@ how to build U-Boot. You can grab it from here: https://github.com/mtk-openwrt/u
 
 Here is a great tutorial that goes in details on how to do that "by hand": https://forum.banana-pi.org/t/tutorial-build-customize-and-use-mediatek-open-source-u-boot-and-atf/13785
 
-_Note that U-Boot and ATF need to be compailed for ARM, so you will either need to setup cross-compilation or have an ARM cpu._
+_Note that U-Boot and ATF need to be compiled for ARM, so you will either need to setup cross-compilation or have an ARM cpu._
 
 Another thing to notice is that we need to have both custom [U-Boot](https://github.com/mtk-openwrt/u-boot) and custom [ATF](https://github.com/mtk-openwrt/arm-trusted-firmware) as both of them need some patches for bpir3.
 
