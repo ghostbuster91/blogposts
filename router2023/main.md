@@ -133,7 +133,7 @@ The main difference however is that there is no bios nor UEFI firmware preflashe
 You might think, what is the problem, BL1 serves probably the same role as UEFI, so let's just ask it to load our operating system and we are done, right?
 
 Not, so fast. BL1 (Primary Bootloader) is the most basic bootloader and all it can do is to load next stage bootloader BL2. The Boot ROM is hardwired or configured to know where BL2 is located in memory or storage.
-This location is typically specified by the SoC manufacturer or system designer. The Boot ROM's role is to initiate the boot process by loading the first bootloader stage, BL2, into memory and passing control to it.
+This location is typically specified by the SoC manufacturer or system designer. The Boot ROM's role is to initiate the boot process by loading the secondary bootloader stage, BL2, into memory and passing control to it.
 BL2 then takes over the boot process, sets up the secure environment, initializes necessary components, and proceeds to load and verify subsequent stages of the bootloader.
 
 What is BL2 and where to find it?
