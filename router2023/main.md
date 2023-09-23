@@ -192,7 +192,7 @@ Here is how we can use it:
   })
 ```
 
-However, this will use the mainline version of arm-trusted-firmware while we need the fork from MTK repository.
+However, this will use the mainline version of arm-trusted-firmware and we need the custom version from MTK fork.
 We can change that by overriding some attributes of that function:
 
 ```nix
@@ -232,7 +232,7 @@ armTrustedFirmwareMT7986 = (buildArmTrustedFirmware rec {
   });
 ```
 
-When can then apply the same technique to build our custom version of U-Boot.
+We can then apply the same technique to build our custom version of U-Boot.
 The base function is defined here: https://github.com/NixOS/nixpkgs/blob/359ea22552b78c8ddc9b1ca5b1af66864e10fe61/pkgs/misc/uboot/default.nix#L33
 
 And here is how it looks like adapted to our values:
@@ -252,3 +252,199 @@ And here is how it looks like adapted to our values:
     version = "2023.07-rc3";
   });
 ```
+
+Great, we finally have both `bl2.img` and `fip.bin`. Now we need to put them in a specific place on our SD card.
+As stated previously files (ATF at least) have to be put in very specific locations.
+
+Below table describes our target partition layout:
+
+| partition  | blocks (512byte)            |
+| ---------- | --------------------------- |
+| bl2        | 34 - 8191                   |
+| u-boot-env | 8192 - 9215                 |
+| factory    | 9216 - 13311                |
+| fip        | 13312 - 17407               |
+| kernel     | 17408 - 222207 (100 MB)     |
+| rootfs     | 222208 - 12805120 (6144 MB) |
+
+(src: http://www.fw-web.de/dokuwiki/doku.php?id=en:bpi-r3:start)
+
+This is basically where I got before @nakato wrote on [banana-pi forum](https://forum.banana-pi.org/) that they were able to boot NixOS on bpir3.
+For the sake of completeness of this blog post I will try to describe next steps but my understanding of them is pretty basic.
+
+Next we need to create NixOS image that we will put into the `rootfs` partition.
+The image needs to include kernel with device-tree patches applied.
+The kernel itself needs to be compiled for the target architecture - ARM64.
+
+Let's configure the kernel:
+
+```nix
+boot.kernelPackages =
+  let
+    base = linux_6_4;
+    bpir3_minimal = linuxKernel.customPackage {
+      inherit (base) version modDirVersion src;
+      configfile = copyPathToStore ./bpir3_kernel.config;
+    };
+  in
+    bpir3_minimal
+;
+```
+
+The `bpir3_kernel.config` contains configuration for building the kernel specifying which modules to include.
+(The less modules you have the faster the building time :) )
+How the `bpir3_kernel.config` file was created is still a mystery for me, because even if some template config file can be generated you still
+need to know what most of the kernel modules are for in order to select correct subset of them.
+
+With kernel configured we can finally build the `rootfs` image:
+
+```nix
+rootfsImage = pkgs.callPackage (pkgs.path + "/nixos/lib/make-ext4-fs.nix") {
+  storePaths = config.system.build.toplevel;
+  compressImage = false;
+  volumeLabel = "root";
+};
+```
+
+Now we should have everything that's needed to create the final SD-card image.
+We will once again use nix to describe how all these pieces should be wired together:
+
+```nix
+{ config, lib, pkgs, linuxPackages_bpir3, armTrustedFirmwareMT7986,  ...}:
+with lib;
+let
+  rootfsImage = pkgs.callPackage (pkgs.path + "/nixos/lib/make-ext4-fs.nix") {
+    storePaths = config.system.build.toplevel;
+    compressImage = false;
+    volumeLabel = "root";
+  };
+in {
+  boot.kernelPackages = linuxPackages_bpir3;
+  boot.kernelParams = [ "console=ttyS0,115200" ];
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  hardware.deviceTree.filter = "mt7986a-bananapi-bpi-r3.dtb";
+  hardware.deviceTree.overlays = [
+    {
+      name = "bpir3-sd-enable";
+      dtsFile = ./bpir3-dts/mt7986a-bananapi-bpi-r3-sd.dts;
+    }
+  ];
+
+  system.build.sdImage = pkgs.callPackage (
+    { stdenv, dosfstools, e2fsprogs, gptfdisk, mtools, libfaketime, util-linux, zstd, uboot }: stdenv.mkDerivation {
+      name = "nixos-bananapir3-sd";
+      nativeBuildInputs = [
+        dosfstools e2fsprogs gptfdisk libfaketime mtools util-linux
+      ];
+      buildInputs = [ uboot ];
+      imageName = "nixos-bananapir3-sd";
+      compressImage = false;
+
+      buildCommand = ''
+        # 512MB should provide room enough for a couple of kernels
+        bootPartSizeMB=512
+        root_fs=${rootfsImage}
+
+        mkdir -p $out/nix-support $out/sd-image
+        export img=$out/sd-image/nixos-bananapir3-sd.raw
+
+        echo "${pkgs.stdenv.buildPlatform.system}" > $out/nix-support/system
+        echo "file sd-image $img" >> $out/nix-support/hydra-build-products
+
+        ## Sector Math
+        bl2Start=34
+        bl2End=8191
+
+        envStart=8192
+        envEnd=9215
+
+        factoryStart=9216
+        factoryEnd=13311
+
+        fipStart=13312
+        fipEnd=17407
+
+        # End statically sized partitions
+
+        # kernel partition
+        bootSizeBlocks=$((bootPartSizeMB * 1024 * 1024 / 512))
+        bootPartStart=$((fipEnd + 1))
+        bootPartEnd=$((bootPartStart + bootSizeBlocks - 1))
+
+        rootSizeBlocks=$(du -B 512 --apparent-size $root_fs | awk '{ print $1 }')
+        rootPartStart=$((bootPartEnd + 1))
+        rootPartEnd=$((rootPartStart + rootSizeBlocks - 1))
+
+        # Image size is firmware + boot + root + 100s
+        # Last 100s is being lazy about GPT backup, which should be 36s is size.
+
+        imageSize=$((fipEnd + 1 + bootSizeBlocks + rootSizeBlocks + 100))
+        imageSizeB=$((imageSize * 512))
+
+        truncate -s $imageSizeB $img
+
+        # Create a new GPT data structure
+        sgdisk -o \
+        --set-alignment=2 \
+        -n 1:$bl2Start:$bl2End -c 1:bl2 -A 1:set:2:1 \
+        -n 2:$envStart:$envEnd -c 2:u-boot-env \
+        -n 3:$factoryStart:$factoryEnd -c 3:factory \
+        -n 4:$fipStart:$fipEnd -c 4:fip \
+        -n 5:$bootPartStart:$bootPartEnd -c 5:boot -t 5:C12A7328-F81F-11D2-BA4B-00A0C93EC93B \
+        -n 6:$rootPartStart:$rootPartEnd -c 6:root \
+        $img
+
+        # Copy firmware
+        dd conv=notrunc if=${uboot}/bl2.img of=$img seek=$bl2Start
+        dd conv=notrunc if=${uboot}/fip.bin of=$img seek=$fipStart
+
+        # Create vfat partition for ESP and in this case populate with extlinux config and kernels.
+        truncate -s $((bootSizeBlocks * 512)) bootpart.img
+        mkfs.vfat --invariant -i 0x2178694e -n ESP bootpart.img
+        mkdir ./boot
+        ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./boot
+        # Reset dates
+        find boot -exec touch --date=2000-01-01 {} +
+        cd boot
+        for d in $(find . -type d -mindepth 1 | sort); do
+          faketime "2000-01-01 00:00:00" mmd -i ../bootpart.img "::/$d"
+        done
+        for f in $(find . -type f | sort); do
+          mcopy -pvm -i ../bootpart.img "$f" "::/$f"
+        done
+        cd ..
+
+        fsck.vfat -vn bootpart.img
+        dd conv=notrunc if=bootpart.img of=$img seek=$bootPartStart
+
+        # Copy root filesystem
+        dd conv=notrunc if=$root_fs of=$img seek=$rootPartStart
+      '';
+    }
+  ) { uboot = armTrustedFirmwareMT7986; };
+```
+
+This is not the complete code to make NixOS boot on bpir3. I minimized it to show (in my opinion) the most important parts.
+I am also not the author of it. For the full code visit @nakato's [nixos-bpri3-example](https://github.com/nakato/nixos-bpir3-example/tree/main) repository.
+
+---
+
+I must say that it was all in all much harder than I initially assumed.
+Partially because the board was quite new at that time, partially because only raspberry PI have [upstream support in NixOS](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi#Status),
+but mostly because it was my first time doing something in this area. But I'm glad I took on this challenge. I learned a ton and I am very happy with the results.
+
+There are other boards that are supported by community. You can find full list and a ton of documentation as always in great [nix documentation](https://nixos.wiki/wiki/NixOS_on_ARM).
+(This is not an irony, I know that some people complain about the state of nix documentation but given how broad horizon it covers I am truly amazed by how good it is.)
+
+Now, when I have NixOS running I am planning to configure it as a router, to replace my tplink router with it at some point.
+
+Last but not least, I would like to thank people without whom I wouldn't be able to write this blogpost and without whom that mission would probably fail:
+
+- @lorenz who first booted NixOS on bpir3 and shared his config
+- @nakato for putting all the bits and pieces into a reusable flake, but more importantly for patiently answering all of my questions
+- @frank.w and @ericwoud for the support with getting NixOS on bpir3
+- @samueldr and @k900 for helping me undrestand various niuances about SoC,ARM and state of the support of nix for such boards
+- and many other people both from bananapi forum and "NixOS on ARM" matrix
+
+Thank you!
