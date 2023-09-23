@@ -272,6 +272,8 @@ Below table describes our target partition layout:
 This is basically where I got before @nakato wrote on [banana-pi forum](https://forum.banana-pi.org/) that they were able to boot NixOS on bpir3.
 For the sake of completeness of this blog post I will try to describe next steps but my understanding of them is pretty basic.
 
+## Building kernel
+
 Next we need to create NixOS image that we will put into the `rootfs` partition.
 The image needs to include kernel with device-tree patches applied.
 The kernel itself needs to be compiled for the target architecture - ARM64.
@@ -295,6 +297,8 @@ The `bpir3_kernel.config` contains configuration for building the kernel specify
 (The less modules you have the faster the building time :) )
 How the `bpir3_kernel.config` file was created is still a mystery for me, because even if some template config file can be generated you still
 need to know what most of the kernel modules are for in order to select correct subset of them.
+
+## NixOS image
 
 With kernel configured we can finally build the `rootfs` image:
 
@@ -428,7 +432,7 @@ in {
 This is not the complete code to make NixOS boot on bpir3. I minimized it to show (in my opinion) the most important parts.
 I am also not the author of it. For the full code visit @nakato's [nixos-bpri3-example](https://github.com/nakato/nixos-bpir3-example/tree/main) repository.
 
----
+## Epilog
 
 I must say that it was all in all much harder than I initially assumed.
 Partially because the board was quite new at that time, partially because only raspberry PI have [upstream support in NixOS](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi#Status),
