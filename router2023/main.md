@@ -1,9 +1,9 @@
 # Nixos based router in 2023
 
-After spending few months with NixOS as my daily driver and successfully fixing most of the issues,
-that I encountered (unknown to the happy people who use user-friendly distro like ubuntu),
+After spending a few months with NixOS as my daily driver and successfully fixing most of the issues,
+that I encountered (unknown to the happy people who use a user-friendly distro like ubuntu),
 
-I felt empowered and free, now when I can put everything into a VCS.
+I felt empowered and free now when I can put everything into a VCS.
 
 I decided to continue nixification even further. But what else can you nixify after switching your main operating system to NixOS?
 
@@ -11,16 +11,16 @@ Look around, I bet you will find a lot of devices that still are not running Nix
 
 Why I chose to ~break~ nixify my router:
 
-- It is a device of critical importance and it should be up-to-date due to security reasons, however I have no idea if regular vendors are shipping any updates to the devices that they have already sold. On the other hand keeping it up-to-date using nix will be trivial.
-- It can server as a vpn server, provided that your firmware allow for that. That is not an issue if you use bare linux, you are free to setup any kind of software including various vpn servers.
-- Again, depending on your firmware you might be able to setup quite advanced configurations for your home-network. E.g. putting all IOT devices on a separate network that does not have access to the internet. With bare linux you are free te setup the networking rules however you like.
+- It is a device of critical importance and it should be up-to-date due to security reasons, however, I have no idea if regular vendors are shipping any updates to the devices that they have already sold. On the other hand, keeping it up-to-date using nix will be trivial.
+- It can serve as a vpn server, provided that your firmware allows for that. That is not an issue if you use bare linux, you are free to setup any kind of software including various vpn servers.
+- Again, depending on your firmware you might be able to set up quite advanced configurations for your home network. E.g. putting all IOT devices on a separate network that does not have access to the internet. With bare linux, you are free to set up the networking rules however you like.
 - In contrast to a normal linux distro/OpenWRT with nix putting the configuration into VCS is a no-brainer.
 - last but not least I wanted to learn more about networking and these kind of things :)
 
 However, we cannot install a regular linux distribution like NixOS on an arbitrary router device and my router was no exception to that.
-There are some distribution that are very small and they can be installed almost everywhere. One of such distributions is [OpenWRT](https://openwrt.org/) that is tailored for networking devices.
-In our case we will need something more powerful, something that is more of a general purpose, like raspberry PI, but tailored more for networking operations.
-Luckily, Sinovoip, a company that is know from building such boards, recently started selling their newest [Banana PI R3](https://wiki.banana-pi.org/Banana_Pi_BPI-R3)
+Some distribution are very small and they can be installed almost everywhere. One such distribution is [OpenWRT](https://openwrt.org/) which is tailored for networking devices.
+In our case, we will need something more powerful, something that is more of a general purpose, like Raspberry PI, but tailored more for networking operations.
+Luckily, Sinovoip, a company that is known from building such boards, recently started selling their newest [Banana PI R3](https://wiki.banana-pi.org/Banana_Pi_BPI-R3)
 board (bpir3 for short) that had everything that I needed.
 
 The board has a MediaTek MT7986(Filogic 830) Quad core ARM A53 processor and 2 GB of RAM which is the minimum required for building the NixOS system.
@@ -31,9 +31,9 @@ I figured out that installing NixOS wouldn't be much of a problem.
 
 I also found some unofficial [arch](https://forum.banana-pi.org/t/bpi-r3-imagebuilder-r3-archlinux-kernel-v6-3/15089),
 [ubuntu](https://forum.banana-pi.org/t/bpi-r3-ubuntu-22-04-image/14956) and [debian](https://forum.banana-pi.org/t/bpi-r3-debian-bullseye-image/14541)
-images linked in the [bpir3 documentation](https://wiki.banana-pi.org/Banana_Pi_BPI-R3) which only convinced me that this will be fairly easy.
-Well, I was wrong. I mean, in the end it turned out not to be that hard provided that one knows what they were doing, but, let me remind you, I didn't.
-Tbh there is still a lot of things that I don't understand but I learned a ton and I wanted to share that.
+images linked in the [bpir3 documentation](https://wiki.banana-pi.org/Banana_Pi_BPI-R3) which only convinced me that this would be fairly easy.
+Well, I was wrong. I mean, in the end, it turned out not to be that hard provided that one knows what they were doing, but, let me remind you, I didn't.
+Tbh there are still a lot of things that I don't understand but I learned a ton and I wanted to share that.
 
 If you find anything incorrect in this article please don't hesitate to suggest a correction.
 
@@ -132,7 +132,7 @@ The main difference however is that there is no bios nor UEFI firmware preflashe
 
 You might think, what is the problem, BL1 serves probably the same role as UEFI, so let's just ask it to load our operating system and we are done, right?
 
-Not, so fast. BL1 (Primary Bootloader) is the most basic bootloader and all it can do is to load next stage bootloader BL2. The Boot ROM is hardwired or configured to know where BL2 is located in memory or storage.
+Not so fast. BL1 (Primary Bootloader) is the most basic bootloader and all it can do is to load next stage bootloader BL2. The Boot ROM is hardwired or configured to know where BL2 is located in memory or storage.
 This location is typically specified by the SoC manufacturer or system designer. The Boot ROM's role is to initiate the boot process by loading the secondary bootloader stage, BL2, into memory and passing control to it.
 BL2 then takes over the boot process, sets up the secure environment, initializes necessary components, and proceeds to load and verify subsequent stages of the bootloader.
 
@@ -160,7 +160,7 @@ Let's summarize what we've learned so far. There is BL1 burned into the SoC that
 
 Does it mean that we can start now?
 
-Not yet. Remember when I told you about the device-tree? U-Boot is a generic program that can be deployed on a wide variety of different devices. It achieves that by abstracting over the hardware by using device-tree definitions.
+Not yet. Remember when I told you about the device-tree? U-Boot is a generic program that can be deployed on a wide variety of different devices. It achieves that by abstracting over the hardware with the help of device-tree definitions.
 That means that we need to provide our bpir3 specific device-tree definitions to U-Boot in order to compile it for our board. Apart from that we will also need a `def_config` file that configures
 how to build U-Boot. You can grab it from here: https://github.com/mtk-openwrt/u-boot/blob/mtksoc/configs/mt7986a_bpir3_sd_defconfig
 
