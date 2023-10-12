@@ -1,8 +1,7 @@
 # Nixos based router in 2023
 
-After spending a few months with NixOS as my daily driver and successfully fixing most of the issues,
+After spending a few months with NixOS as my daily driver and successfully fixing most of the issues
 that I encountered (unknown to the happy people who use a user-friendly distro like ubuntu),
-
 I felt empowered and free now when I can put everything into a VCS.
 
 I decided to continue nixification even further. But what else can you nixify after switching your main operating system to NixOS?
