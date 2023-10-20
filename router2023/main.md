@@ -1,8 +1,7 @@
 # Nixos based router in 2023
 
-After spending a few months with NixOS as my daily driver and successfully fixing most of the issues
-that I encountered (unknown to the happy people who use a user-friendly distro like ubuntu),
-I felt empowered and free now when I can put everything into a VCS.
+After spending a few months with NixOS as my daily driver and successfully resolving most of the issues I encountered (unlike the fortunate users of user-friendly distros like Ubuntu),
+I now feel empowered and free, especially because I can put everything into a VCS.
 
 I decided to continue nixification even further. But what else can you nixify after switching your main operating system to NixOS?
 
@@ -22,10 +21,10 @@ In our case, we will need something more powerful, something that is more of a g
 Luckily, Sinovoip, a company that is known from building such boards, recently started selling their newest [Banana PI R3](https://wiki.banana-pi.org/Banana_Pi_BPI-R3)
 board (bpir3 for short) that had everything that I needed.
 
-The board has a MediaTek MT7986(Filogic 830) Quad core ARM A53 processor and 2 GB of RAM which is the minimum required for building the NixOS system.
+The board has a MediaTek MT7986(Filogic 830) Quad core ARM A53 processor and 2 GB of RAM which is the minimum required for building the NixOS system[^1].
 It has 5 ethernet ports, it supports Wifi 6, and can be equipped with a nvme disk - perfect!
 
-At this moment I had literally zero knowledge about embedded systems and ARM devices, all I knew was that you could install there OpenWRT, and since OpenWRT is a linux
+At the moment I had literally zero knowledge about embedded systems and ARM devices, all I knew was that you could install there OpenWRT, and since OpenWRT is a linux
 I figured out that installing NixOS wouldn't be much of a problem.
 
 I also found some unofficial [arch](https://forum.banana-pi.org/t/bpi-r3-imagebuilder-r3-archlinux-kernel-v6-3/15089),
@@ -75,7 +74,8 @@ Here is a part of it that defines two buttons (reset and wps):
 Device-tree files (dts) get compiled via device-tree compiler (dtc) into a device-tree blob (dtb) that then gets loaded by the bootloader and/or kernel.
 (There are also dtsi files that are used to extract common definitions e.g. SoC. The dtsi files are meant to be included by regular dts files.)
 
-Luckily, we don't have to always recompile the whole device-tree whenever we want to test some new device.
+Device-tree definitions live in [linux kernel repository](https://github.com/torvalds/linux/tree/master/arch/arm64/boot/dts/mediatek).
+Luckily, we don't have to always fork linux whenever we want to test some new device.
 Instead, we can use device-tree overlays for that. A device-tree overlay is just a small piece of device-tree that we can add in particular place.
 You can think of it as a device-tree patch. Once you have your overlay ready you need to compile it and then it can be applied to the already compiled main device-tree.
 
@@ -83,7 +83,7 @@ Some companies upstream their device-tree changes into the mainline kernel, so t
 Good thing about NixOS is that it is easy to use a newer version of linux kernel and if you are using unstable channel you are already on one of the latest ones.
 
 ```nix
-boot.kernelPackages = pkgs.linuxPackages_5_8;
+boot.kernelPackages = pkgs.linuxPackages_6_5;
 ```
 
 Unfortunately, when I embarked on this journey bpir3 was not yet supported in the mainline. All I knew was that they'd just added support for bpir3 in OpenWRT repository:
@@ -165,7 +165,7 @@ how to build U-Boot. You can grab it from here: https://github.com/mtk-openwrt/u
 
 Here is a great tutorial that goes in details on how to do that "by hand": https://forum.banana-pi.org/t/tutorial-build-customize-and-use-mediatek-open-source-u-boot-and-atf/13785
 
-_Note that U-Boot and ATF need to be compiled for ARM, so you will either need to setup cross-compilation or have an ARM cpu._
+_Note that U-Boot and ATF need to be compiled for ARM, so you will either need to setup cross-compilation or have an ARM cpu. Check the [cross-compilation](#cross-compilation) section for more info._
 
 Another thing to notice is that we need to have both custom [U-Boot](https://github.com/mtk-openwrt/u-boot) and custom [ATF](https://github.com/mtk-openwrt/arm-trusted-firmware) as both of them need some patches for bpir3.
 
@@ -431,13 +431,46 @@ in {
 This is not the complete code to make NixOS boot on bpir3. I minimized it to show (in my opinion) the most important parts.
 I am also not the author of it. For the full code visit @nakato's [nixos-bpri3-example](https://github.com/nakato/nixos-bpir3-example/tree/main) repository.
 
+## Cross-compilation
+
+With nix [cross-compilation is quite easy](https://nixos.wiki/wiki/NixOS_on_ARM#Cross-compiling), at least in theory.
+
+There are two ways how you can produce a binary for a different architecture.
+You can either cross-compile or use an emulator like binfmt QEMU.
+Both have their pros and cons. Using emulator is slower, however some packages might fail to build when trying to cross-compile them on a different architecture.
+
+To have your derivation cross-compiled for a different architecture all you have to do is to add something like below:
+
+```nix
+{
+  nixosConfigurations.myMachine = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = [
+      {
+        nixpkgs.crossSystem.system = "aarch64-linux";
+      }
+      ./configuration.nix
+    ];
+  }
+}
+```
+
+Now, I have tried doing it myself, but it didn't work for some reason. If you try to cross-compile something like a simple NixOS flake for raspberry PI then I suppose you will have no problems.
+I suspect that it doesn't work in my case due to the internals of my flake, as there are many instances with hardcoded architecture set to aarch64.
+Probably rewriting the flake as a set of NixOS modules would help, but I haven't found the time to try it yet.
+
+I hope to do it one day and I will link my results here.
+
 ## Epilog
 
-I must say that it was all in all much harder than I initially assumed.
-Partially because the board was quite new at that time, partially because only raspberry PI have [upstream support in NixOS](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi#Status),
-but mostly because it was my first time doing something in this area. But I'm glad I took on this challenge. I learned a ton and I am very happy with the results.
+I must say that all in all, it was much harder than I initially assumed.
+However, this was not due to Nix, but rather because of the inherent complexity of the entire task. If anything, I dare to say that Nix made it possible for me to take on this challenge.
 
-There are other boards that are supported by community. You can find full list and a ton of documentation as always in great [nix documentation](https://nixos.wiki/wiki/NixOS_on_ARM).
+If you would like to run NixOS on ARM don't worry because it doesn't have to look that hard.
+For example raspberry PI has [upstream support in NixOS](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi#Status),
+and I heard that the experience of setting it up and then using it is very smooth.
+
+There are other boards that are supported by community. You can find full list of them and a ton of documentation as always in great [nix documentation](https://nixos.wiki/wiki/NixOS_on_ARM).
 (This is not an irony, I know that some people complain about the state of nix documentation but given how broad horizon it covers I am truly amazed by how good it is.)
 
 Now, when I have NixOS running I am planning to configure it as a router, to replace my tplink router with it at some point.
@@ -451,3 +484,7 @@ Last but not least, I would like to thank people without whom I wouldn't be able
 - and many other people both from bananapi forum and "NixOS on ARM" matrix
 
 Thank you!
+
+[^1]:
+    You don't have to build NixOS system on the exact same device where you will be using it. There is a feature in Nix called remote builds which lets you
+    build your nix derivation on another machine and copy results over the network. You can read more about it [here](https://nixos.org/manual/nix/stable/advanced-topics/distributed-builds.html)
