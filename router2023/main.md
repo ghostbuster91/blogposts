@@ -460,6 +460,7 @@ I suspect that it doesn't work in my case due to the internals of my flake, as t
 Probably rewriting the flake as a set of NixOS modules would help, but I haven't found the time to try it yet.
 
 I hope to do it one day and I will link my results here.
+In the meantime here is an example repository where you can see cross-compilation in action: https://github.com/ghostbuster91/nixos-rockchip
 
 ## Epilog
 
