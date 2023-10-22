@@ -46,8 +46,8 @@ Before we even begin to attempt installing our beloved operating system on the d
 
 What does that it mean to be supported?
 
-The kernel needs to know what kind of hardware components are available to it. This is information is provided by so called device-tree.
-The device-tree is a tree of descriptions of every device supported by linux kernel, and it lives in the linux repository.
+The kernel needs to know what kind of hardware components are available to it. This information is provided by so called device-tree.
+The device-tree is a tree of descriptions of every device supported by linux kernel.
 In our case bpir3 is a device and there should be a device-tree entry for it. This entry will then list all its components together with their physical
 addresses and drivers that are required to communicate with them.
 
@@ -296,6 +296,19 @@ The `bpir3_kernel.config` contains configuration for building the kernel specify
 (The less modules you have the faster the building time :) )
 How the `bpir3_kernel.config` file was created is still a mystery for me, because even if some template config file can be generated you still
 need to know what most of the kernel modules are for in order to select correct subset of them.
+
+While it wasn't necessary for booting NixOS on this board, I realized that it would be a pity not to mention here how one can apply kernel patches.
+In general, patching things in Nix is a daily routine. It is quite common that you will need to patch the source code of a project in order to make it compatible with Nix.
+Below is an example of creating a kernel based on the 6.4 mainline version with an applied mtk-pcie patch.
+
+```nix
+  patched_kernel = linux_6_4.override {
+    kernelPatches = [{
+      name = "PCI: mediatek-gen3: handle PERST after reset";
+      patch = ./linux-mtk-pcie.patch;
+    }];
+  };
+```
 
 ## NixOS image
 
