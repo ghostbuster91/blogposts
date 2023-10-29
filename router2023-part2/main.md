@@ -2,7 +2,7 @@
 
 This is the second part of my journey of having NixOS based router on BananaPI R3 board (bpir3) in which I will focus more on the software side of things. The first part is [here](../router2023/main.md) but it is not mandatory for reading this one.
 
-Before we begin I want to briefly mention that there are two differenet ways to have a reproducible router. The obvious one that I took is to just install NixOS there and configure it to serve as a router. The other one is to use OpenWRT, write your configuration in a declarative way and render set of uci commands to apply on an OpenWRT instance. You can read more about that approach here: https://github.com/Mic92/dotfiles/tree/main/openwrt
+Before we begin I want to briefly mention that there are two different ways to have a reproducible router. The obvious one that I took is to just install NixOS there and configure it to serve as a router. The other one is to use OpenWRT, write your configuration in a declarative way and render set of uci commands to apply on an OpenWRT instance. You can read more about that approach here: https://github.com/Mic92/dotfiles/tree/main/openwrt
 
 ## IPv4 / IPv6
 
@@ -18,7 +18,7 @@ With this settled we can start building our router.
 
 ## Interfaces
 
-We need to configure our network interfaces. There are two ways to configure it under NixOS - either by using [networking.interface](https://search.nixos.org/options?query=networking.interfaces) or [systemd.newtwork](https://nixos.wiki/wiki/Systemd-networkd). The second one is preferred if you have a static configuration that doesn't change much during its lifetime, which is exactly our case.
+We need to configure our network interfaces. There are two ways to configure it under NixOS - either by using [networking.interface](https://search.nixos.org/options?query=networking.interfaces) or [systemd.network](https://nixos.wiki/wiki/Systemd-networkd). The second one is preferred if you have a static configuration that doesn't change much during its lifetime, which is exactly our case.
 
 Let's quickly recall what network interfaces we have for our disposal in bpir3:
 
@@ -52,7 +52,7 @@ We can now write our first part of networkd configuration, that will enslave lan
         networkConfig = {
           # start a DHCP Client for IPv4 Addressing/Routing
           DHCP = "ipv4";
-          # accept Router Advertisements for Stateless IPv6 Autoconfiguraton (SLAAC)
+          # accept Router Advertisements for Stateless IPv6 Auto-Configuration (SLAAC)
           IPv6AcceptRA = true;
           DNSOverTLS = true;
           DNSSEC = true;
@@ -151,3 +151,11 @@ This can be fairly easy done with networkd:
     };
   }
 ```
+
+
+TODO:
+- wifi different standards
+- mbank mobile app
+- hostapd PR with multiple interfaces
+- resolved and LO interface
+- hardware acceleration and WED
