@@ -103,7 +103,7 @@ We can now write our first part of networkd configuration, that will enslave LAN
   };
 ```
 
-For now there is almost no configuration for LAN interfaces, we only changed them to be managed by networkd and that they should be `UP` even if they don't have the carrier attached.
+As you can see there is almost no configuration for LAN interfaces, we only changed them to be managed by networkd and we specified that they should be `UP` even if they don't have the carrier attached.
 This allows connecting the carrier afterwards.
 
 A small note about `wait-online.anyInterface` - without this networkd activation would fail as it would be waiting until timeout is reached for all managed interfaces to come online.
@@ -348,14 +348,14 @@ $ cat /var/lib/dnsmasq/dnsmasq.leases
 1. [hostapd](https://w1.fi/hostapd/)
 2. [iwd](https://iwd.wiki.kernel.org/)
 
-`Hostapd` is a mature, fully-fledged solution; however, it suffers from not-so-great documentation, and its configuration is quite complex (Wi-Fi is complex in general).
-On the other hand, we have `iwd`, which is a modern and minimalistic tool.
+Hostapd is a mature, fully-fledged solution; however, it suffers from not-so-great documentation, and its configuration is quite complex (Wi-Fi is complex in general).
+On the other hand, we have iwd, which is a modern and minimalistic tool.
 
-I was told that if I want to do anything beyond the very basics then I should use `hostapd` as `iwd` is still very limited in terms of its capabilities.
+I was told that if I want to do anything beyond the very basics then I should use hostapd as iwd is still very limited in terms of its capabilities.
 
-`Hostapd` it is then.
+Hostapd it is then.
 
-Below is very basic `hostapd` configuration for 2.4 GHz radio, that creates a single network that will be bridged to our `br-lan`.
+Below is very basic hostapd configuration for 2.4 GHz radio, that creates a single network that will be bridged to our `br-lan`.
 
 ```nix
 services.hostapd = {
@@ -388,7 +388,7 @@ services.hostapd = {
 
 :warning: Note that this will put your Wi-Fi password into the nix-store in a pain text. Use [sops-nix](https://github.com/Mic92/sops-nix) to manage your secrets.
 
-My actual `hostapd` configuration is more complex, and I believe it's crucial to describe the journey that led me to it.
+My actual hostapd configuration is more complex, and I believe it's crucial to describe the journey that led me to it.
 Considering the intricacies of wireless networking, I've chosen to dedicate a separate blog post to this topic.
 
 ## Performance
@@ -451,11 +451,11 @@ Connecting to host 192.168.10.1, port 5201
 iperf Done.
 ```
 
-Not great, not terrible, we will take care of that later.
-
-It is also important to notice that during both of our tests the CPU usage raised up to 37% which is also not that great.
+Not great, not terrible. We can also notice that during both of our tests the CPU usage raised up to 37% which is quite high.
 
 ![cpu-usage-iperf](./cpu-usage-iperf.png)
+
+We will take care of both of these problems in the future.
 
 ## Security
 
@@ -465,30 +465,28 @@ The most important part in my opinion are the rules for nftables which we have a
 
 We specified some additional options for dnsmasq like `bogus-priv` and `no-resolv` which also hardens the network.
 
-We can do more, first let's turn off automatic configuration of IPv6 addresses:
+It is a good practice to filter out [Martian packets](https://en.wikipedia.org/wiki/Martian_packet).
+In order to prevent any such packet from getting through set `rp_filter=1` in kernel params:
 
 ```nix
 boot.kernel = {
   sysctl = {
-    "net.ipv6.conf.all.accept_ra" = 0;
-    "net.ipv6.conf.all.autoconf" = 0;
-    "net.ipv6.conf.all.use_tempaddr" = 0;
-  };
-};
-```
-
-Then, set `rp_filter=1` to prevent any [Martian packet](https://en.wikipedia.org/wiki/Martian_packet) from getting through:
-
-```nix
-boot.kernel = {
-  sysctl = {
+    "net.ipv4.conf.default.rp_filter" = 1
     "net.ipv4.conf.br-lan.rp_filter" = 1;
     "net.ipv4.conf.wan.rp_filter" = 1;
   };
 };
 ```
 
-_Based on https://pavluk.org/blog/2022/01/26/nixos_router.html _
+Kernel documentation says:
+
+- 0 - No source validation.
+- 1 - Strict Mode as defined in RFC 3704 Strict Reverse Path. Each incoming packet is tested against the FIB and if the interface is not the best reverse path the packet check will fail.
+  By default failed packets are discarded.
+- 2 - Loose mode as defined in RFC 3704 Loose Reverse Path. Each incoming packet's source address is also tested against the FIB and if the source address is not reachable via any interface
+  the packet check will fail.
+
+_Based on https://pavluk.org/blog/2022/01/26/nixos_router.html_
 
 ## Epilog
 
