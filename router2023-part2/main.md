@@ -141,8 +141,7 @@ eth0 and eth1 are SFP sockets and they are disabled in my setup.
 
 Since I want all my LAN interfaces to share the same address pool and to communicate within the local network without any restrictions it seems logical to connect them on the
 [layer 2](https://www.juniper.net/documentation/us/en/software/junos/multicast-l2/topics/topic-map/layer-2-understanding.html) (`L2`) into a single bridge interface.
-We will also advertise ourselves on that interface under `192.168.10.1/24` ip address.
-This is the address under which other devices within the local network will be able to reach our router.
+We then configure this interface to be associated with the `192.168.10.1/24` network.
 
 This can be fairly easy done with networkd:
 
