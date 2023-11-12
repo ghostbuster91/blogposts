@@ -355,7 +355,7 @@ I was told that if I want to do anything beyond the very basics then I should us
 
 Hostapd it is then.
 
-Below is very basic hostapd configuration for 2.4 GHz radio, that creates a single network that will be bridged to our `br-lan`.
+Below is a very basic hostapd configuration for 2.4 GHz radio, that creates a single network that will be bridged to our `br-lan`.
 
 ```nix
 services.hostapd = {
