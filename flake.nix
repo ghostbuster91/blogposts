@@ -20,6 +20,12 @@
 
   outputs = inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      flake.nixConfig = {
+        extra-substituters = [ "https://cache.garnix.io" ];
+        extra-trusted-public-keys = [
+          "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        ];
+      };
       systems = [ "x86_64-linux" ];
       imports = [
         inputs.treefmt-nix.flakeModule
