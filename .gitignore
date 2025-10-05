@@ -1,5 +1,5 @@
 .direnv
 themes
-_gen
+resources
 public
 .hugo_build.lock
