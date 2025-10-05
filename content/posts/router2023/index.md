@@ -1,4 +1,10 @@
-# Nixos based router in 2023 - Part 1 - Hardware
+---
+title: "Nixos based router in 2023 - Part 1 - Hardware"
+date: 2023-10-22
+draft: false
+tags: ["nixos", "networking", "kernel"]
+description: "What happens when you try to run nixos on some random hw"
+---
 
 After spending a few months with NixOS as my daily driver and successfully resolving most of the issues I encountered (unlike the fortunate users of user-friendly distros like Ubuntu),
 I now feel empowered and free, especially because I can put everything into a VCS.

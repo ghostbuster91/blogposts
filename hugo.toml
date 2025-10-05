@@ -17,7 +17,7 @@ style = "github-dark"
   description = "Ghostbuster91's personal website"
   keywords = "blog,developer,personal,nix,scala"
   avatarurl = "images/avatar.jpg"
-  gravatar = "ghostbuster91"
+  gravatar = "kghost0@gmail.com"
 
   faviconSVG = "/img/favicon.svg"
   favicon_32 = "/img/favicon-32x32.png"

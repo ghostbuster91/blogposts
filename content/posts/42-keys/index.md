@@ -1,6 +1,10 @@
-# 42 keys layout
-
-Created: 21.02.2023
+---
+title: "42 keys layout"
+date: 2023-02-21
+draft: false
+tags: ["keyboard", "qmk"]
+description: "Designing my own keyboard layout"
+---
 
 I developed the initial version of this layout on my [Sofle V2](https://github.com/josefadamcik/SofleKeyboard) (52 keys) but then I realized that I don't need that many keys.
 I migrated it to [tbk-mini](https://github.com/Bastardkb/TBK-Mini) (42 keys) and I have been using it for about 6 months.
@@ -19,7 +23,7 @@ fully explaining why the things are in the current form.
 
 These were my goals when developing that layout:
 
-- use not more than 42 keys
+- use no more than 42 keys
 - don't use pinky fingers for modifiers or any other frequently used keys like bspc or enter
 - support two languages: English and Polish (with emphasizes on the former)
 - tmux & vim friendly but still be a general purpose layout

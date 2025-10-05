@@ -1,4 +1,10 @@
-# NixOS based router in 2023 - Part 2 - Software
+---
+title: "NixOS based router in 2023 - Part 2 - Software"
+date: 2023-11-19
+draft: false
+tags: ["nixos", "networking"]
+description: "Software aspect of my nixos based router"
+---
 
 This is the second part of my journey of having NixOS based router on BananaPI R3 board (bpir3) in which I will focus more on the software side of things.
 The first part is [here](../router2023/main.md), however reading it is not essential for understanding of this part.

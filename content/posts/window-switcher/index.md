@@ -1,4 +1,10 @@
-# Window switcher
+---
+title: "Window switcher"
+date: 2023-06-23
+draft: false
+tags: ["keyboard", "qmk"]
+description: "How to make alt+tab smarter"
+---
 
 At this point I am not sure if this feature has any official name. I have seen it called "window switcher", "fast switcher", "super alt tab" and others.
 For the sake of this blogpost I will stick to the "window switcher" name. I also don't know who came up with this idea first. If you know please let me know.
