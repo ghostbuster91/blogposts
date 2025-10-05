@@ -33,12 +33,31 @@
               buildInputs = [ pkgs.git pkgs.nodePackages.prettier ];
               buildPhase = ''
                 mkdir -p themes
-                ln -s ${inputs.hugo-coder} themes/hugo-coder
-                sed -i -e 's/enableGitInfo = true/enableGitInfo = false/' config.toml
+                ln -sfn ${inputs.hugo-coder} themes/hugo-coder
+                sed -i -e 's/enableGitInfo = true/enableGitInfo = false/' hugo.toml
                 ${pkgs.hugo}/bin/hugo
                 ${pkgs.nodePackages.prettier}/bin/prettier -w public '!**/*.{js,css}'
               '';
               installPhase = "cp -r public $out";
+            };
+
+            apps = {
+              default.program =
+                let
+                  wrapper = pkgs.writeShellApplication {
+                    name = "hugo-serve";
+                    runtimeInputs = [ pkgs.hugo ];
+                    text = ''
+                      set -euo pipefail
+                      mkdir -p themes
+                      ln -sfn ${inputs.hugo-coder} themes/hugo-coder
+                      sed -i -e 's/enableGitInfo = true/enableGitInfo = false/' hugo.toml
+
+                      exec hugo server --bind 0.0.0.0 --port 1313 -D "$@"
+                    '';
+                  };
+                in
+                "${wrapper}/bin/hugo-serve";
             };
 
             devshells.default = {
