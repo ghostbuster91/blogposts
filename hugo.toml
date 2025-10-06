@@ -32,6 +32,11 @@ style = "github-dark"
   colorScheme = "auto"
   hidecolorschemetoggle = false
 
+  showReadingTime = false
+  showBreadCrumbs = true
+  showPostNavLinks = true
+  showCodeCopyButtons = true
+
   # customCSS = ["css/custom.css"]
   # customSCSS = ["scss/custom.scss"]
   # customJS = ["js/custom.js"]
@@ -60,6 +65,13 @@ style = "github-dark"
   weight = 1
   url  = "posts/"
 [[menu.main]]
-  name = "About"
+  name = "My talks"
   weight = 2
+  url = "talks/"
+[[menu.main]]
+  name = "About"
+  weight = 3
   url = "about/"
+
+[params.assets]
+  css = ["css/extended/talks.css", "css/extended/custom.css"]

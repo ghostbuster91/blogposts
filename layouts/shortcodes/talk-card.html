@@ -1,0 +1,50 @@
+{{ $title := .Get "title" }}
+{{ $event := .Get "event" }}
+{{ $location := .Get "location" }}
+{{ $year := .Get "year" }}
+{{ $slides := .Get "slides" }}
+{{ $recording := .Get "recording" }}
+{{ $icon := .Get "icon" }}
+{{ $tags := .Get "tags" }}
+
+<div class="talk-card">
+  <div class="talk-card-top">
+    <div class="talk-card-headings">
+      <h3 class="talk-card-title">{{ $title }}</h3>
+      <div class="talk-card-meta">
+        {{ with $event }}<span>{{ . }}</span>{{ end }}
+        {{ if and $location (or $event $year) }}<span>&nbsp;•&nbsp;</span>{{ end }}
+        {{ with $location }}<span>{{ . }}</span>{{ end }}
+        {{ if or $event $location }}<span>&nbsp;•&nbsp;</span>{{ end }}
+        {{ with $year }}<span>{{ . }}</span>{{ end }}
+      </div>
+
+      {{ with $tags }}
+        <div class="talk-card-tags">
+          {{ $items := split . "," }}
+          {{ range $items }}
+            {{ $t := strings.Trim . " " }}
+            {{ if $t }}<span class="talk-card-tag">#{{ $t }}</span>{{ end }}
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </div>
+
+  <details class="talk-card-abstract">
+    <summary>Abstract</summary>
+    <div class="talk-card-abstract-body">
+      {{ .Inner | markdownify }}
+    </div>
+  </details>
+
+  <div class="talk-card-actions">
+    {{ with $recording }}
+      <a class="talk-card-btn" href="{{ . | safeURL }}" target="_blank" rel="noopener">🎬 Recording</a>
+    {{ end }}
+    {{ with $slides }}
+      <a class="talk-card-btn" href="{{ . | safeURL }}" target="_blank" rel="noopener">📑 Slides</a>
+    {{ end }}
+  </div>
+</div>
+

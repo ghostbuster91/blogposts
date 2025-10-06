@@ -11,6 +11,10 @@
       url = "github:luizdepra/hugo-coder";
       flake = false;
     };
+    paper-mod = {
+      flake = false;
+      url = "github:adityatelange/hugo-PaperMod";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +44,10 @@
               buildPhase = ''
                 mkdir -p themes
                 ln -sfn ${inputs.hugo-coder} themes/hugo-coder
+                ln -sfn ${inputs.paper-mod} themes/PaperMod
+
                 sed -i -e 's/enableGitInfo = true/enableGitInfo = false/' hugo.toml
+
                 ${pkgs.hugo}/bin/hugo
                 ${pkgs.nodePackages.prettier}/bin/prettier -w public '!**/*.{js,css}'
               '';
@@ -54,9 +61,10 @@
                     name = "hugo-serve";
                     runtimeInputs = [ pkgs.hugo ];
                     text = ''
-                      set -euo pipefail
                       mkdir -p themes
                       ln -sfn ${inputs.hugo-coder} themes/hugo-coder
+                      ln -sfn ${inputs.paper-mod} themes/PaperMod
+
                       sed -i -e 's/enableGitInfo = true/enableGitInfo = false/' hugo.toml
 
                       exec hugo server --bind 0.0.0.0 --port 1313 -D "$@"

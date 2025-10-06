@@ -1,0 +1,43 @@
+.talks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.talk-card {
+  border: 1px solid var(--card-border, rgba(0,0,0,0.08));
+  border-radius: 16px;
+  padding: 1rem;
+  background: var(--card-bg, var(--theme, #fff));
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.talk-card-top {
+  display: flex; gap: .9rem; align-items: center; margin-bottom: .25rem;
+}
+
+.talk-card-icon {
+  width: 48px; height: 48px; border-radius: 12px; object-fit: cover;
+  box-shadow: 0 1px 6px rgba(0,0,0,.07);
+}
+.talk-card-icon--placeholder { display:flex; align-items:center; justify-content:center; background:#f4f4f5; }
+
+.talk-card-title { margin: 0; font-size: 1.05rem; line-height: 1.35; }
+.talk-card-meta { color: #6b7280; font-size: .9rem; margin-top: .15rem; }
+
+.talk-card-tags { margin-top: .35rem; display:flex; flex-wrap:wrap; gap:.35rem; }
+.talk-card-tag {
+  font-size: .75rem; padding:.15rem .4rem; border-radius: 999px;
+  background: #eef2ff; color:#3730a3;
+}
+
+.talk-card-abstract summary { cursor: pointer; margin: .35rem 0 .5rem; color:#2563eb; }
+.talk-card-abstract-body { color:#111827; }
+
+.talk-card-actions { display:flex; gap:.5rem; margin-top:.75rem; flex-wrap:wrap; }
+.talk-card-btn {
+  text-decoration: none; font-size:.9rem; padding:.35rem .6rem; border-radius: 10px;
+  border:1px solid rgba(0,0,0,.08); background:#f8fafc;
+}
+.talk-card-btn:hover { background:#eef2f7; }
+
