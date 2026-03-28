@@ -1,12 +1,16 @@
-## **Scala's Momentum in the AI Era**
+---
+title: "Scala's Momentum in the AI Era"
+date: 2026-03-28
+draft: true
+tags: ["programming-language", "ai", "scala"]
+description: "After years of slow growth, Scala might be entering a very different phase."
+---
 
 *Reflections after Scalar*
 
 There's a narrative that Scala has been losing momentum for years.
 
 After attending Scalar, I'm starting to think the opposite might be happening.
-
----
 
 ### A Language with Slow-Building Momentum
 
@@ -32,7 +36,6 @@ Instead of one clear direction, there were many.
 
 That meant the "snowball effect" (the compounding growth of libraries, tools, and community) never accelerated as fast as in more opinionated ecosystems.
 
----
 
 ### The Real Bottleneck Was Never Talent
 
@@ -56,7 +59,6 @@ Scala already has:
 
 What it lacked was **throughput**.
 
----
 
 ### The Throughput Problem
 
@@ -108,7 +110,6 @@ Now what matters is:
 
 Not grinding through implementation details.
 
----
 
 ### What Happens When Strong Engineers Are Unblocked
 
@@ -127,7 +128,6 @@ They are the kind of efforts that previously required:
 
 Now they are happening faster - and more often.
 
----
 
 ### Why This Matters for Scala
 
@@ -150,8 +150,6 @@ Most importantly:
 
 The only thing that was missing was speed.
 
----
-
 ### 10x Developers Become 100x
 
 Here's the intuition I can't shake:
@@ -167,8 +165,6 @@ But because:
 * and now the execution speed is finally there
 
 The constraint has shifted.
-
----
 
 ### A Delayed Payoff?
 
@@ -194,7 +190,6 @@ then we might be entering a phase where:
 
 > the trade-offs finally flip in Scala’s favor.
 
----
 
 ### A Different Kind of Momentum
 
