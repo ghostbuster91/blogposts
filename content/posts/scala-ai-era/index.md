@@ -49,7 +49,7 @@ And that’s true.
 
 But I think there's another dimension that deserves more attention.
 
-The real bottleneck was never the people.
+The bottleneck wasn't a lack of talent - it was how much output that talent could realistically produce.
 
 Scala already has:
 
