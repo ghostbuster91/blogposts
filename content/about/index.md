@@ -23,6 +23,6 @@ I plan to buy a **Gaggia** espresso machine and mod it with [**Gaggiuino**](http
 I'm also a fan of mechanical keyboards; I've built a few myself, and that journey was an absolute blast.
 
 Lastly, a quick note on AI usage:  
-I use AI assistance in most of my programming work - mainly for brainstorming and understanding complex concepts.  
-The content you’ll find here is **100% human-made**, though I may use AI to correct spelling, grammar or stylistic quirks, so your eyes don't bleed while reading.  
-You're welcome.
+I use AI assistance in most of my programming work - mainly for brainstorming and understanding complex concepts as well as writing the code itself.
+The content you'll find here is human-made at its core, though I use AI to help shape ideas into readable blog posts - and occasionally fix spelling, grammar, or stylistic quirks so your eyes don’t bleed.
+You’re welcome.
