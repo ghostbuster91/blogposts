@@ -115,9 +115,9 @@ Not grinding through implementation details.
 
 We're already starting to see early signals of this shift.
 
-Łukasz Biały recently described how he forked the Magnum project and, within roughly a month, turned it into a fully-fledged ORM - effectively writing as much code as the original author in that time.
+Łukasz Biały recently described how he [forked](https://github.com/lbialy/parlance) the [Magnum](https://github.com/AugustNagro/magnum) project and, within roughly a month, turned it into a fully-fledged ORM - effectively writing as much code as the original author in that time.
 
-Or take Mateusz Kubuszok, who built a compatibility layer between Scala 2 and Scala 3 macros - not just a thin bridge, but a unified abstraction that actually simplifies building certain patterns. To prove it works, he created *Kindlings*, porting a number of existing libraries onto this new foundation.
+Or take Mateusz Kubuszok, who built a compatibility layer between Scala 2 and Scala 3 macros - not just a thin bridge, but a unified abstraction that actually simplifies building certain patterns. To prove it works, he created [Kindlings](https://github.com/kubuszok/kindlings), porting a number of existing libraries onto this new foundation.
 
 These are not small projects.
 They are the kind of efforts that previously required:
