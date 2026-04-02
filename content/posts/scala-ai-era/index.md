@@ -1,7 +1,7 @@
 ---
 title: "Scala's Momentum in the AI Era"
 date: 2026-03-28
-draft: true
+draft: false
 tags: ["programming-language", "ai", "scala"]
 description: "After years of slow growth, Scala might be entering a very different phase."
 ---
